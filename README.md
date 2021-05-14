@@ -1,1 +1,1 @@
-Solar_System_OpenGKL
+Solar_System_OpenGL
