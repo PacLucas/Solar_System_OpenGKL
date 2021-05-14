@@ -17,8 +17,8 @@
 
 #include "Camera.h"
 
-const int Width = 800;
-const int Height = 600;
+int Width = 800;
+int Height = 600;
 
 struct Vertex
 {
@@ -316,6 +316,14 @@ void KeyCallback(GLFWwindow* Window, int Key, int ScanCode, int Action, int Modi
 	}
 }
 
+void Resize(GLFWwindow* Window, int NewWidth, int NewHeight) {
+	Width = NewWidth;
+	Height = NewHeight;
+
+	Camera.AspectRatio = static_cast<float>(Width) / Height;
+	glViewport(0, 0, Width, Height);
+}
+
 int main()
 {
 	if (!glfwInit())
@@ -338,6 +346,7 @@ int main()
 	glfwSetMouseButtonCallback(Window, MouseButtonCallback);
 	glfwSetCursorPosCallback(Window, MouseMotionCallback);
 	glfwSetKeyCallback(Window, KeyCallback);
+	glfwSetFramebufferSizeCallback(Window, Resize);
 
 	glfwMakeContextCurrent(Window);
 	glfwSwapInterval(1);
