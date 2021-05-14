@@ -267,19 +267,19 @@ void KeyCallback(GLFWwindow* Window, int Key, int ScanCode, int Action, int Modi
 				break;
 
 			case GLFW_KEY_W:
-				Camera.MoveForward(1.0f);
+				Camera.MoveForward(10.0f);
 				break;
 
 			case GLFW_KEY_S:
-				Camera.MoveForward(-1.0f);
+				Camera.MoveForward(-10.0f);
 				break;
 
 			case GLFW_KEY_A:
-				Camera.MoveRight(-1.0f);
+				Camera.MoveRight(-10.0f);
 				break;
 
 			case GLFW_KEY_D:
-				Camera.MoveRight(1.0f);
+				Camera.MoveRight(10.0f);
 				break;
 
 			default:
@@ -295,19 +295,19 @@ void KeyCallback(GLFWwindow* Window, int Key, int ScanCode, int Action, int Modi
 				break;
 
 			case GLFW_KEY_W:
-				Camera.MoveForward(5.0f);
+				Camera.MoveForward(0.0f);
 				break;
 
 			case GLFW_KEY_S:
-				Camera.MoveForward(-5.0f);
+				Camera.MoveForward(0.0f);
 				break;
 
 			case GLFW_KEY_A:
-				Camera.MoveRight(-5.0f);
+				Camera.MoveRight(0.0f);
 				break;
 
 			case GLFW_KEY_D:
-				Camera.MoveRight(5.0f);
+				Camera.MoveRight(0.0f);
 				break;
 
 			default:
@@ -389,6 +389,7 @@ int main()
 	Light.Intensity = 1.0f;
 
 	// Model View Projection
+	/*
 	glm::mat4 ModelMatrixSun =  glm::rotate(glm::identity<glm::mat4>(), glm::radians(90.0f), glm::vec3{ 1.0f, 0.0f, 0.0f });
 	glm::mat4 ModelMatrixMercury = glm::translate(glm::identity<glm::mat4>(), glm::vec3{ 10, 0, 0 });
 	ModelMatrixMercury = glm::rotate(ModelMatrixMercury, glm::radians(90.0f), glm::vec3{ 1.0f, 0.0f, 0.0f });
@@ -413,6 +414,8 @@ int main()
 
 	glm::mat4 ModelMatrixNeptune = glm::translate(glm::identity<glm::mat4>(), glm::vec3{ 80, 0, 0 });
 	ModelMatrixNeptune = glm::rotate(ModelMatrixNeptune, glm::radians(90.0f), glm::vec3{ 1.0f, 0.0f, 0.0f });
+
+	*/
 
 	// Carregar a Textura para a Memória de Vídeo
 	GLuint EarthTextureId = LoadTexture("textures/earth_2k.jpg");
@@ -486,6 +489,8 @@ int main()
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~EARTH~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 		glm::mat4 ViewMatrix = Camera.GetView();
+		glm::mat4 ModelMatrixEarth = glm::rotate(glm::identity<glm::mat4>(), glm::radians(90.0f), glm::vec3{ 1.0f, 0.0f, 0.0f });
+		ModelMatrixEarth = glm::translate(glm::identity<glm::mat4>(), glm::vec3(sin((float)CurrentTime) * 30.0, 0.0f, cos((float)CurrentTime) * 30.0));
 		glm::mat4 NormalMatrix = glm::transpose(glm::inverse(ViewMatrix * ModelMatrixEarth));
 		glm::mat4 ModelViewMatrix = ViewMatrix * ModelMatrixEarth;
 		glm::mat4 ModelViewProjectionMatrix = Camera.GetViewProjection() * ModelMatrixEarth;
@@ -531,6 +536,8 @@ int main()
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MERCURY~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 		ViewMatrix = Camera.GetView();
+		glm::mat4 ModelMatrixMercury = glm::rotate(glm::identity<glm::mat4>(), glm::radians(90.0f), glm::vec3{ 1.0f, 0.0f, 0.0f });
+		ModelMatrixMercury = glm::translate(glm::identity<glm::mat4>(), glm::vec3(sin((float)CurrentTime) * 10.0, 0.0f, cos((float)CurrentTime) * 10.0));
 		NormalMatrix = glm::transpose(glm::inverse(ViewMatrix * ModelMatrixMercury));
 		ModelViewMatrix = ViewMatrix * ModelMatrixMercury;
 		ModelViewProjectionMatrix = Camera.GetViewProjection() * ModelMatrixMercury;
@@ -570,6 +577,8 @@ int main()
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~VENUS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 		ViewMatrix = Camera.GetView();
+		glm::mat4 ModelMatrixVenus = glm::rotate(glm::identity<glm::mat4>(), glm::radians(90.0f), glm::vec3{ 1.0f, 0.0f, 0.0f });
+		ModelMatrixVenus = glm::translate(glm::identity<glm::mat4>(), glm::vec3(sin((float)CurrentTime) * 20.0, 0.0f, cos((float)CurrentTime) * 20.0));
 		NormalMatrix = glm::transpose(glm::inverse(ViewMatrix * ModelMatrixVenus));
 		ModelViewMatrix = ViewMatrix * ModelMatrixVenus;
 		ModelViewProjectionMatrix = Camera.GetViewProjection() * ModelMatrixVenus;
@@ -581,7 +590,7 @@ int main()
 		glUniformMatrix4fv(NormalMatrixLoc, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
 
 		ModelViewMatrixLoc = glGetUniformLocation(ProgramId, "ModelViewMatrix");
-		glUniformMatrix4fv(ModelViewMatrixLoc, 1, GL_FALSE, glm::value_ptr(ModelViewMatrix));
+		glUniformMatrix4fv(ModelViewMatrixLoc, 1, GL_FALSE, glm::value_ptr(ModelMatrixVenus));
 
 		ModelViewProjectionLoc = glGetUniformLocation(ProgramId, "ModelViewProjection");
 		glUniformMatrix4fv(ModelViewProjectionLoc, 1, GL_FALSE, glm::value_ptr(ModelViewProjectionMatrix));
@@ -615,6 +624,8 @@ int main()
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MARS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 		ViewMatrix = Camera.GetView();
+		glm::mat4 ModelMatrixMars = glm::rotate(glm::identity<glm::mat4>(), glm::radians(90.0f), glm::vec3{ 1.0f, 0.0f, 0.0f });
+		ModelMatrixMars = glm::translate(glm::identity<glm::mat4>(), glm::vec3(sin((float)CurrentTime) * 40.0, 0.0f, cos((float)CurrentTime) * 40.0));
 		NormalMatrix = glm::transpose(glm::inverse(ViewMatrix * ModelMatrixMars));
 		ModelViewMatrix = ViewMatrix * ModelMatrixMars;
 		ModelViewProjectionMatrix = Camera.GetViewProjection() * ModelMatrixMars;
@@ -626,7 +637,7 @@ int main()
 		glUniformMatrix4fv(NormalMatrixLoc, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
 
 		ModelViewMatrixLoc = glGetUniformLocation(ProgramId, "ModelViewMatrix");
-		glUniformMatrix4fv(ModelViewMatrixLoc, 1, GL_FALSE, glm::value_ptr(ModelViewMatrix));
+		glUniformMatrix4fv(ModelViewMatrixLoc, 1, GL_FALSE, glm::value_ptr(ModelMatrixMars));
 
 		ModelViewProjectionLoc = glGetUniformLocation(ProgramId, "ModelViewProjection");
 		glUniformMatrix4fv(ModelViewProjectionLoc, 1, GL_FALSE, glm::value_ptr(ModelViewProjectionMatrix));
@@ -655,6 +666,8 @@ int main()
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~JUPTER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 		ViewMatrix = Camera.GetView();
+		glm::mat4 ModelMatrixJupter = glm::rotate(glm::identity<glm::mat4>(), glm::radians(90.0f), glm::vec3{ 1.0f, 0.0f, 0.0f });
+		ModelMatrixJupter = glm::translate(glm::identity<glm::mat4>(), glm::vec3(sin((float)CurrentTime) * 50.0, 0.0f, cos((float)CurrentTime) * 50.0));
 		NormalMatrix = glm::transpose(glm::inverse(ViewMatrix * ModelMatrixJupter));
 		ModelViewMatrix = ViewMatrix * ModelMatrixJupter;
 		ModelViewProjectionMatrix = Camera.GetViewProjection() * ModelMatrixJupter;
@@ -666,7 +679,7 @@ int main()
 		glUniformMatrix4fv(NormalMatrixLoc, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
 
 		ModelViewMatrixLoc = glGetUniformLocation(ProgramId, "ModelViewMatrix");
-		glUniformMatrix4fv(ModelViewMatrixLoc, 1, GL_FALSE, glm::value_ptr(ModelViewMatrix));
+		glUniformMatrix4fv(ModelViewMatrixLoc, 1, GL_FALSE, glm::value_ptr(ModelMatrixJupter));
 
 		ModelViewProjectionLoc = glGetUniformLocation(ProgramId, "ModelViewProjection");
 		glUniformMatrix4fv(ModelViewProjectionLoc, 1, GL_FALSE, glm::value_ptr(ModelViewProjectionMatrix));
@@ -694,6 +707,8 @@ int main()
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SATURN~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 		ViewMatrix = Camera.GetView();
+		glm::mat4 ModelMatrixSaturn = glm::rotate(glm::identity<glm::mat4>(), glm::radians(90.0f), glm::vec3{ 1.0f, 0.0f, 0.0f });
+		ModelMatrixSaturn = glm::translate(glm::identity<glm::mat4>(), glm::vec3(sin((float)CurrentTime) * 60.0, 0.0f, cos((float)CurrentTime) * 60.0));
 		NormalMatrix = glm::transpose(glm::inverse(ViewMatrix * ModelMatrixSaturn));
 		ModelViewMatrix = ViewMatrix * ModelMatrixSaturn;
 		ModelViewProjectionMatrix = Camera.GetViewProjection() * ModelMatrixSaturn;
@@ -705,7 +720,7 @@ int main()
 		glUniformMatrix4fv(NormalMatrixLoc, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
 
 		ModelViewMatrixLoc = glGetUniformLocation(ProgramId, "ModelViewMatrix");
-		glUniformMatrix4fv(ModelViewMatrixLoc, 1, GL_FALSE, glm::value_ptr(ModelViewMatrix));
+		glUniformMatrix4fv(ModelViewMatrixLoc, 1, GL_FALSE, glm::value_ptr(ModelMatrixSaturn));
 
 		ModelViewProjectionLoc = glGetUniformLocation(ProgramId, "ModelViewProjection");
 		glUniformMatrix4fv(ModelViewProjectionLoc, 1, GL_FALSE, glm::value_ptr(ModelViewProjectionMatrix));
@@ -733,6 +748,8 @@ int main()
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~URANUS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 		ViewMatrix = Camera.GetView();
+		glm::mat4 ModelMatrixUranus = glm::rotate(glm::identity<glm::mat4>(), glm::radians(90.0f), glm::vec3{ 1.0f, 0.0f, 0.0f });
+		ModelMatrixUranus = glm::translate(glm::identity<glm::mat4>(), glm::vec3(sin((float)CurrentTime) * 70.0, 0.0f, cos((float)CurrentTime) * 70.0));
 		NormalMatrix = glm::transpose(glm::inverse(ViewMatrix * ModelMatrixUranus));
 		ModelViewMatrix = ViewMatrix * ModelMatrixUranus;
 		ModelViewProjectionMatrix = Camera.GetViewProjection() * ModelMatrixUranus;
@@ -744,7 +761,7 @@ int main()
 		glUniformMatrix4fv(NormalMatrixLoc, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
 
 		ModelViewMatrixLoc = glGetUniformLocation(ProgramId, "ModelViewMatrix");
-		glUniformMatrix4fv(ModelViewMatrixLoc, 1, GL_FALSE, glm::value_ptr(ModelViewMatrix));
+		glUniformMatrix4fv(ModelViewMatrixLoc, 1, GL_FALSE, glm::value_ptr(ModelMatrixUranus));
 
 		ModelViewProjectionLoc = glGetUniformLocation(ProgramId, "ModelViewProjection");
 		glUniformMatrix4fv(ModelViewProjectionLoc, 1, GL_FALSE, glm::value_ptr(ModelViewProjectionMatrix));
@@ -772,6 +789,8 @@ int main()
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~NEPTUNE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 		ViewMatrix = Camera.GetView();
+		glm::mat4 ModelMatrixNeptune = glm::rotate(glm::identity<glm::mat4>(), glm::radians(90.0f), glm::vec3{ 1.0f, 0.0f, 0.0f });
+		ModelMatrixNeptune = glm::translate(glm::identity<glm::mat4>(), glm::vec3(sin((float)CurrentTime) * 80.0, 0.0f, cos((float)CurrentTime) * 80.0));
 		NormalMatrix = glm::transpose(glm::inverse(ViewMatrix * ModelMatrixNeptune));
 		ModelViewMatrix = ViewMatrix * ModelMatrixNeptune;
 		ModelViewProjectionMatrix = Camera.GetViewProjection() * ModelMatrixNeptune;
@@ -783,7 +802,7 @@ int main()
 		glUniformMatrix4fv(NormalMatrixLoc, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
 
 		ModelViewMatrixLoc = glGetUniformLocation(ProgramId, "ModelViewMatrix");
-		glUniformMatrix4fv(ModelViewMatrixLoc, 1, GL_FALSE, glm::value_ptr(ModelViewMatrix));
+		glUniformMatrix4fv(ModelViewMatrixLoc, 1, GL_FALSE, glm::value_ptr(ModelMatrixNeptune));
 
 		ModelViewProjectionLoc = glGetUniformLocation(ProgramId, "ModelViewProjection");
 		glUniformMatrix4fv(ModelViewProjectionLoc, 1, GL_FALSE, glm::value_ptr(ModelViewProjectionMatrix));
@@ -811,6 +830,7 @@ int main()
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SUN~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 		ViewMatrix = Camera.GetView();
+		glm::mat4 ModelMatrixSun = glm::rotate(glm::identity<glm::mat4>(), glm::radians(90.0f), glm::vec3{ 1.0f, 0.0f, 0.0f });
 		NormalMatrix = glm::transpose(glm::inverse(ViewMatrix * ModelMatrixSun));
 		ModelViewMatrix = ViewMatrix * ModelMatrixSun;
 		ModelViewProjectionMatrix = Camera.GetViewProjection() * ModelMatrixSun;
@@ -822,7 +842,7 @@ int main()
 		glUniformMatrix4fv(NormalMatrixLoc, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
 
 		ModelViewMatrixLoc = glGetUniformLocation(ProgramId, "ModelViewMatrix");
-		glUniformMatrix4fv(ModelViewMatrixLoc, 1, GL_FALSE, glm::value_ptr(ModelViewMatrix));
+		glUniformMatrix4fv(ModelViewMatrixLoc, 1, GL_FALSE, glm::value_ptr(ModelMatrixSun));
 
 		ModelViewProjectionLoc = glGetUniformLocation(ProgramId, "ModelViewProjection");
 		glUniformMatrix4fv(ModelViewProjectionLoc, 1, GL_FALSE, glm::value_ptr(ModelViewProjectionMatrix));
